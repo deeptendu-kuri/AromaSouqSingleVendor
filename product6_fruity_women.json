@@ -1,0 +1,20 @@
+{
+  "name": "Berry Paradise",
+  "slug": "berry-paradise",
+  "description": "A sweet fruity fragrance with strawberry, raspberry, and peach notes. Playful and youthful.",
+  "price": 290,
+  "sku": "BERRY-PAR-75",
+  "stock": 55,
+  "categoryId": "820012ab-a067-4a02-9e68-1d1afffd2e55",
+  "gender": "women",
+  "scentFamily": "fruity",
+  "size": "75ml",
+  "concentration": "Eau de Toilette",
+  "region": "USA",
+  "collection": "TRENDING",
+  "occasion": "PARTY,DAILY",
+  "productType": "CLONE",
+  "coinsToAward": 29,
+  "isActive": true,
+  "isFeatured": false
+}

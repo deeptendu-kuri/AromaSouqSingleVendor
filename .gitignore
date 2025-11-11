@@ -1,0 +1,166 @@
+# AromaSouq - Git Ignore Configuration
+
+# ============================================
+# IMPORTANT: Sensitive Files
+# ============================================
+supabase-credentials.txt
+**/credentials*.txt
+**/.env
+**/.env.local
+**/.env.*.local
+**/.env.development.local
+**/.env.test.local
+**/.env.production.local
+
+# ============================================
+# Dependencies
+# ============================================
+**/node_modules/
+**/.pnp
+**/.pnp.js
+
+# ============================================
+# Testing
+# ============================================
+**/coverage
+**/*.lcov
+**/.nyc_output
+
+# ============================================
+# Next.js (Frontend)
+# ============================================
+aromasouq-web/.next/
+aromasouq-web/out/
+aromasouq-web/.vercel
+aromasouq-web/.turbo
+
+# ============================================
+# NestJS (Backend)
+# ============================================
+aromasouq-api/dist/
+aromasouq-api/.nest/
+
+# ============================================
+# Prisma
+# ============================================
+# DO NOT ignore migrations folder!
+# aromasouq-api/prisma/migrations/  (keep this)
+
+# ============================================
+# Build & Production
+# ============================================
+build/
+dist/
+*.tsbuildinfo
+next-env.d.ts
+
+# ============================================
+# IDE & Editors
+# ============================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# ============================================
+# Logs
+# ============================================
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ============================================
+# OS Files
+# ============================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ============================================
+# Temporary Files
+# ============================================
+*.tmp
+*.temp
+temp-*.json
+test-*.json
+
+# ============================================
+# Database
+# ============================================
+*.db
+*.sqlite
+*.sqlite3
+
+# ============================================
+# Optional: Keep these commented out
+# ============================================
+# If you want to ignore all test files:
+# **/*.test.ts
+# **/*.spec.ts
+
+# If you want to ignore documentation:
+# docs/
+
+# ============================================
+# Project Specific - Keep in Git
+# ============================================
+# .claude/              (MCP config - KEEP)
+# docs/                 (documentation - KEEP)
+# prisma/migrations/    (database migrations - KEEP)
+# README.md            (project readme - KEEP)
+# *.md                 (markdown docs - KEEP)
+
+
+APPLICATION-OPERATIONAL-FLOW-REPORT.md
+AromaSouq-Enhanced-MVP-Specification-Final.md
+AROMASOUQ-MVP-COMPLETE-SPECIFICATION.md
+AROMASOUQ-MVP-V2-SPECIFICATION.md
+COMPATIBILITY-ANALYSIS-REPORT.md
+COMPLETE_IMPLEMENTATION_CODE.md
+COMPREHENSIVE-INTEGRATION-AUDIT.md
+COUPON-IMPLEMENTATION-COMPLETE.md
+CUSTOMER-FEATURES-STATUS.md
+FRONTEND-IMPLEMENTATION-ROADMAP.md
+IMPLEMENTATION_FILES.md
+IMPLEMENTATION_SUMMARY.md
+IMPLEMENTATION-PLAN.md
+MCP-ANALYSIS-AND-SETUP.md
+SETUP-CHECKLIST.md
+SETUP-GUIDE-COMPLETE.md
+WHAT-I-CREATED.md
+Integration
+integration-summary
+mockups
+mockups-updated
+99-MASTER-INTEGRATION-CHECKLIST.md
+ACTUAL-IMPLEMENTATION-STATUS.md
+categories-expectation.md
+CATEGORY-BASED-IMPLEMENTATION-PLAN.md
+CATEGORY-SYSTEM-ANALYSIS-AND-IMPLEMENTATION-PLAN.md
+COMPLETE-STATUS-AND-REMAINING-WORK.md
+COMPREHENSIVE-CATEGORY-IMPLEMENTATION-PLAN.md
+COMPREHENSIVE-TESTING-PLAN.md
+PHASE-6-COINS-ENHANCEMENTS-COMPLETION.md
+PHASE-7-ADDRESS-MANAGEMENT-COMPLETION.md
+PHASE-7-TEST-RESULTS.md
+PHASE-8-PRODUCT-VARIANTS-COMPLETION.md
+
+PHASE-WISE-IMPLEMENTATION-PLAN-PART2.md
+PHASE-WISE-IMPLEMENTATION-PLAN.md
+PHASE1-FEATURES-QUICK-ANALYSIS.md
+IMPLEMENTATION_ANALYSIS_REPORT.md
+IMPLEMENTATION-COVERAGE-ANALYSIS.md
+IMPLEMENTATION-SUMMARY.md
+QUICK_REFERENCE.md
+SESSION-SUMMARY-PHASES-7-8-10.md
+category_implementation
+frontend
+C:\Users\deept\AromaSouq\aromasouq-api\PHASE_5_IMPLEMENTATION_SUMMARY.md
+current-proper-analysis.md
+FEATURE-MATRIX-BY-USER-TYPE.md

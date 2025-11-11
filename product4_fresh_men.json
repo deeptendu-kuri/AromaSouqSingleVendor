@@ -1,0 +1,21 @@
+{
+  "name": "Ocean Breeze Sport",
+  "slug": "ocean-breeze-sport",
+  "description": "A refreshing aquatic fresh fragrance with marine notes and citrus. Ideal for sports and summer days.",
+  "price": 280,
+  "compareAtPrice": 380,
+  "sku": "OCEAN-BRZ-100",
+  "stock": 80,
+  "categoryId": "231cfecd-219e-42ae-8015-883e5b8cee4a",
+  "gender": "men",
+  "scentFamily": "fresh",
+  "size": "100ml",
+  "concentration": "Eau de Toilette",
+  "region": "ITALY",
+  "collection": "TRENDING",
+  "occasion": "DAILY",
+  "productType": "ORIGINAL",
+  "coinsToAward": 28,
+  "isActive": true,
+  "isFeatured": false
+}

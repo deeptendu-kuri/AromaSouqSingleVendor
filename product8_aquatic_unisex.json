@@ -1,0 +1,20 @@
+{
+  "name": "Azure Waters",
+  "slug": "azure-waters",
+  "description": "A clean aquatic fragrance evoking the deep blue sea. Refreshing and invigorating.",
+  "price": 380,
+  "sku": "AZURE-WAT-100",
+  "stock": 50,
+  "categoryId": "35827904-5423-4da7-a1c9-e4cf1f287971",
+  "gender": "unisex",
+  "scentFamily": "aquatic",
+  "size": "100ml",
+  "concentration": "Eau de Toilette",
+  "region": "ITALY",
+  "collection": "SIGNATURE",
+  "occasion": "DAILY",
+  "productType": "ORIGINAL",
+  "coinsToAward": 38,
+  "isActive": true,
+  "isFeatured": false
+}

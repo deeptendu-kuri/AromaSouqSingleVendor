@@ -1,0 +1,563 @@
+@import "tailwindcss";
+
+@theme {
+  /* Luxury Oud Color Palette */
+  --color-oud-gold: #C9A86A;
+  --color-deep-navy: #1A1F2E;
+  --color-charcoal: #2D2D2D;
+  --color-ivory: #FEFEFE;
+  --color-rose-gold: #E8C4A0;
+  --color-amber: #D4A574;
+  --color-sage-green: #8B9D83;
+  --color-burgundy: #8B3A3A;
+  --color-whatsapp-green: #25D366;
+
+  /* Font Families */
+  --font-family-heading: var(--font-playfair), Georgia, serif;
+  --font-family-body: var(--font-inter), sans-serif;
+  --font-family-sans: var(--font-inter), sans-serif;
+  --font-family-serif: var(--font-playfair), Georgia, serif;
+
+  /* Box Shadows */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-card-hover: 0 12px 24px rgba(0, 0, 0, 0.15);
+  --shadow-oud: 0 4px 12px rgba(201, 168, 106, 0.3);
+  --shadow-oud-hover: 0 6px 20px rgba(201, 168, 106, 0.4);
+
+  /* Border Radius */
+  --radius-lg: 0.5rem;
+  --radius-md: calc(0.5rem - 2px);
+  --radius-sm: calc(0.5rem - 4px);
+
+  /* Animations */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-fade-in: fade-in 0.3s ease-out;
+  --animate-slide-up: slide-up 0.3s ease-out;
+  --animate-scale-in: scale-in 0.2s ease-out;
+}
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 3.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 3.9%;
+  --primary: 36 47% 60%; /* Oud gold */
+  --primary-foreground: 0 0% 98%;
+  --secondary: 215 25% 13%; /* Deep navy */
+  --secondary-foreground: 0 0% 98%;
+  --muted: 0 0% 96.1%;
+  --muted-foreground: 0 0% 45.1%;
+  --accent: 0 0% 96.1%;
+  --accent-foreground: 0 0% 9%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 89.8%;
+  --input: 0 0% 89.8%;
+  --ring: 36 47% 60%;
+  --radius: 0.5rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-inter), sans-serif;
+  min-height: 100vh;
+  antialiased: true;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #9ca3af;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #6b7280;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* Keyframe Animations */
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Scrollbar hide utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============================================
+   RTL (Right-to-Left) Support for Arabic
+   ============================================ */
+
+/* Base RTL direction */
+[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Font family for Arabic */
+[dir="rtl"] body {
+  font-family: var(--font-arabic), sans-serif;
+}
+
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] h5,
+[dir="rtl"] h6 {
+  font-family: var(--font-arabic), sans-serif;
+}
+
+/* Flex direction reversal */
+[dir="rtl"] .flex-row {
+  flex-direction: row-reverse;
+}
+
+/* Margin Auto-swap */
+[dir="rtl"] .ml-auto {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+[dir="rtl"] .mr-auto {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+/* Margin spacing - 2 (0.5rem) */
+[dir="rtl"] .ml-2 {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+[dir="rtl"] .mr-2 {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
+/* Margin spacing - 3 (0.75rem) */
+[dir="rtl"] .ml-3 {
+  margin-left: 0;
+  margin-right: 0.75rem;
+}
+
+[dir="rtl"] .mr-3 {
+  margin-right: 0;
+  margin-left: 0.75rem;
+}
+
+/* Margin spacing - 4 (1rem) */
+[dir="rtl"] .ml-4 {
+  margin-left: 0;
+  margin-right: 1rem;
+}
+
+[dir="rtl"] .mr-4 {
+  margin-right: 0;
+  margin-left: 1rem;
+}
+
+/* Margin spacing - 6 (1.5rem) */
+[dir="rtl"] .ml-6 {
+  margin-left: 0;
+  margin-right: 1.5rem;
+}
+
+[dir="rtl"] .mr-6 {
+  margin-right: 0;
+  margin-left: 1.5rem;
+}
+
+/* Padding swap */
+[dir="rtl"] .pl-2 {
+  padding-left: 0;
+  padding-right: 0.5rem;
+}
+
+[dir="rtl"] .pr-2 {
+  padding-right: 0;
+  padding-left: 0.5rem;
+}
+
+[dir="rtl"] .pl-3 {
+  padding-left: 0;
+  padding-right: 0.75rem;
+}
+
+[dir="rtl"] .pr-3 {
+  padding-right: 0;
+  padding-left: 0.75rem;
+}
+
+[dir="rtl"] .pl-4 {
+  padding-left: 0;
+  padding-right: 1rem;
+}
+
+[dir="rtl"] .pr-4 {
+  padding-right: 0;
+  padding-left: 1rem;
+}
+
+[dir="rtl"] .pl-6 {
+  padding-left: 0;
+  padding-right: 1.5rem;
+}
+
+[dir="rtl"] .pr-6 {
+  padding-right: 0;
+  padding-left: 1.5rem;
+}
+
+[dir="rtl"] .pl-10 {
+  padding-left: 0;
+  padding-right: 2.5rem;
+}
+
+[dir="rtl"] .pr-10 {
+  padding-right: 0;
+  padding-left: 2.5rem;
+}
+
+/* Text alignment */
+[dir="rtl"] .text-left {
+  text-align: right;
+}
+
+[dir="rtl"] .text-right {
+  text-align: left;
+}
+
+/* Positioning - Left/Right swap */
+[dir="rtl"] .left-0 {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] .right-0 {
+  right: auto;
+  left: 0;
+}
+
+[dir="rtl"] .left-2 {
+  left: auto;
+  right: 0.5rem;
+}
+
+[dir="rtl"] .right-2 {
+  right: auto;
+  left: 0.5rem;
+}
+
+[dir="rtl"] .left-3 {
+  left: auto;
+  right: 0.75rem;
+}
+
+[dir="rtl"] .right-3 {
+  right: auto;
+  left: 0.75rem;
+}
+
+[dir="rtl"] .left-4 {
+  left: auto;
+  right: 1rem;
+}
+
+[dir="rtl"] .right-4 {
+  right: auto;
+  left: 1rem;
+}
+
+/* Inset positioning */
+[dir="rtl"] .inset-x-0 {
+  left: auto;
+  right: 0;
+}
+
+/* Rounded corners */
+[dir="rtl"] .rounded-l,
+[dir="rtl"] .rounded-l-lg,
+[dir="rtl"] .rounded-l-md,
+[dir="rtl"] .rounded-l-sm {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: var(--radius, 0.5rem);
+  border-bottom-right-radius: var(--radius, 0.5rem);
+}
+
+[dir="rtl"] .rounded-r,
+[dir="rtl"] .rounded-r-lg,
+[dir="rtl"] .rounded-r-md,
+[dir="rtl"] .rounded-r-sm {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: var(--radius, 0.5rem);
+  border-bottom-left-radius: var(--radius, 0.5rem);
+}
+
+/* Border sides */
+[dir="rtl"] .border-l {
+  border-left: 0;
+  border-right: 1px solid;
+}
+
+[dir="rtl"] .border-r {
+  border-right: 0;
+  border-left: 1px solid;
+}
+
+/* ============================================
+   IMPORTANT: Gradients Are NOT Reversed in RTL
+   ============================================
+
+   Gradients are VISUAL DESIGN choices, not layout properties.
+   Reversing gradient directions reverses the COLOR ORDER, which breaks:
+   - Dark backgrounds become light
+   - Light text becomes invisible
+   - Button colors break
+   - Badge colors break
+
+   In RTL mode, we only reverse LAYOUT properties:
+   - Margins, padding, text-align, positioning
+
+   But we keep VISUAL properties identical:
+   - Colors, gradients, shadows, borders
+
+   This ensures the UI looks identical in both English and Arabic,
+   with only the text direction and layout mirrored.
+
+   DO NOT ADD ANY GRADIENT REVERSALS HERE.
+   ============================================ */
+
+/* Transform origin */
+[dir="rtl"] .origin-left {
+  transform-origin: right;
+}
+
+[dir="rtl"] .origin-right {
+  transform-origin: left;
+}
+
+/* Dropdown menu alignment - Radix UI */
+[dir="rtl"] [data-radix-popper-content-wrapper] {
+  transform-origin: right center !important;
+}
+
+/* Sheet/Drawer positioning - Radix UI */
+[dir="rtl"] [data-radix-dialog-content][data-side="left"] {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] [data-radix-dialog-content][data-side="right"] {
+  right: auto;
+  left: 0;
+}
+
+/* Carousel scroll direction */
+[dir="rtl"] .overflow-x-auto {
+  direction: ltr;
+}
+
+[dir="rtl"] .overflow-x-auto > * {
+  direction: rtl;
+}
+
+/* Custom RTL utility classes */
+.rtl-mirror {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .rtl-mirror {
+  transform: scaleX(1);
+}
+
+/* Badge positioning helpers */
+.badge-start {
+  left: 0.5rem;
+}
+
+.badge-end {
+  right: 0.5rem;
+}
+
+[dir="rtl"] .badge-start {
+  left: auto;
+  right: 0.5rem;
+}
+
+[dir="rtl"] .badge-end {
+  right: auto;
+  left: 0.5rem;
+}
+
+/* Icon positioning */
+.icon-start {
+  margin-right: 0.5rem;
+}
+
+.icon-end {
+  margin-left: 0.5rem;
+}
+
+[dir="rtl"] .icon-start {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
+[dir="rtl"] .icon-end {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+/* Space between items */
+[dir="rtl"] .space-x-2 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
+}
+
+[dir="rtl"] .space-x-4 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
+}
+
+/* Divide sides */
+[dir="rtl"] .divide-x > :not([hidden]) ~ :not([hidden]) {
+  --tw-divide-x-reverse: 1;
+}
+
+/* Scrollbar for RTL */
+[dir="rtl"] ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Adjust Radix Select in RTL */
+[dir="rtl"] [data-radix-select-viewport] {
+  direction: rtl;
+}
+
+/* Popover positioning */
+[dir="rtl"] [data-side="left"] {
+  right: auto;
+  left: 0;
+}
+
+[dir="rtl"] [data-side="right"] {
+  left: auto;
+  right: 0;
+}
+
+/* Tooltip positioning */
+[dir="rtl"] [data-radix-tooltip-content] {
+  transform-origin: var(--radix-tooltip-content-transform-origin);
+}
+
+/* Input icons */
+[dir="rtl"] input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Number input */
+[dir="rtl"] input[type="number"] {
+  text-align: right;
+}
+
+/* Float label animation for RTL */
+[dir="rtl"] .float-label {
+  right: 0.75rem;
+  left: auto;
+}
+
+/* Responsive RTL adjustments */
+@media (max-width: 768px) {
+  [dir="rtl"] .md\:ml-auto {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  [dir="rtl"] .md\:mr-auto {
+    margin-right: 0;
+    margin-left: auto;
+  }
+}

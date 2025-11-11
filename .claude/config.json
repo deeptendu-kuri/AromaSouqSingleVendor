@@ -1,0 +1,23 @@
+{
+  "project": {
+    "name": "AromaSouq MVP",
+    "description": "Luxury fragrance marketplace for UAE/GCC - Responsive Web App",
+    "structure": {
+      "backend": "aromasouq-api",
+      "frontend": "aromasouq-web",
+      "docs": "docs"
+    },
+    "theme": {
+      "primary": "#C9A86A",
+      "name": "Oud Gold"
+    }
+  },
+  "supabase": {
+    "projectRef": "owflekosdjmwnkqpjjnn",
+    "region": "ap-southeast-1"
+  },
+  "defaults": {
+    "languageModel": "claude-sonnet-4",
+    "temperature": 0.7
+  }
+}

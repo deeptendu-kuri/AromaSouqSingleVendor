@@ -1,0 +1,21 @@
+{
+  "name": "Thai Oud Royal",
+  "slug": "thai-oud-royal",
+  "description": "Premium Thai oud with rose and musk. A luxurious oriental masterpiece.",
+  "price": 780,
+  "sku": "THAI-OUD-ROY-30",
+  "stock": 20,
+  "categoryId": "231cfecd-219e-42ae-8015-883e5b8cee4a",
+  "gender": "men",
+  "scentFamily": "oriental",
+  "size": "30ml",
+  "concentration": "Attar",
+  "region": "THAILAND",
+  "collection": "EXCLUSIVE",
+  "occasion": "WEDDING,EID",
+  "productType": "NICHE",
+  "oudType": "THAI",
+  "coinsToAward": 78,
+  "isActive": true,
+  "isFeatured": true
+}

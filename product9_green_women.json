@@ -1,0 +1,20 @@
+{
+  "name": "Garden of Eden",
+  "slug": "garden-of-eden",
+  "description": "A fresh green fragrance with cut grass, mint, and green tea. Natural and calming.",
+  "price": 310,
+  "sku": "GARDEN-EDEN-75",
+  "stock": 40,
+  "categoryId": "820012ab-a067-4a02-9e68-1d1afffd2e55",
+  "gender": "women",
+  "scentFamily": "green",
+  "size": "75ml",
+  "concentration": "Eau de Parfum",
+  "region": "FRANCE",
+  "collection": "RAMADAN",
+  "occasion": "RAMADAN,DAILY",
+  "productType": "ORIGINAL",
+  "coinsToAward": 31,
+  "isActive": true,
+  "isFeatured": true
+}

@@ -1,0 +1,18 @@
+{
+  "name": "AromaSouq Test Fragrance",
+  "slug": "aromasouq-test-fragrance",
+  "description": "A test fragrance created to verify the new mandatory productType implementation",
+  "price": 299,
+  "compareAtPrice": 399,
+  "sku": "TEST-ASQ-001",
+  "stock": 100,
+  "categoryId": "ececb654-6d5a-4a7c-8e7a-adeeed8d86dc",
+  "gender": "unisex",
+  "scentFamily": "oriental",
+  "productType": "OUR_BRAND",
+  "region": "UAE",
+  "format": "SPRAY",
+  "priceSegment": "PREMIUM",
+  "isActive": true,
+  "isFeatured": true
+}
