@@ -11,8 +11,10 @@ export interface Product {
   sku: string
   descriptionEn: string
   descriptionAr: string
+  price: number
   regularPrice: number
   salePrice?: number
+  compareAtPrice?: number
   stockQuantity: number
   lowStockThreshold: number
   images: ProductImage[]
