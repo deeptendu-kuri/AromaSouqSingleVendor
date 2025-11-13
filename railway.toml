@@ -1,0 +1,6 @@
+[build]
+builder = "nixpacks"
+watchPatterns = ["aromasouq-api/**"]
+
+[deploy]
+startCommand = "cd aromasouq-api && pnpm run start:prod"
