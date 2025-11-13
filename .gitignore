@@ -182,3 +182,8 @@ test-phase-*.js
 test-phase-*.sh
 docs/*Supabase*.md
 backend/PHASE-*-*.md
+
+# ============================================
+# UI/Design Files
+# ============================================
+UIthemeandfontexpectations/
