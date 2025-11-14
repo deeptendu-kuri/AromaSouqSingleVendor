@@ -18,12 +18,21 @@ import { formatCurrency, formatDate } from "@/lib/utils"
 import toast from "react-hot-toast"
 
 const statusColors: Record<string, string> = {
-  PENDING: "bg-[#B3967D]/100 text-[#B3967D]/800",
+  PENDING: "bg-yellow-100 text-yellow-800",
   CONFIRMED: "bg-blue-100 text-blue-800",
   PROCESSING: "bg-purple-100 text-purple-800",
   SHIPPED: "bg-cyan-100 text-cyan-800",
   DELIVERED: "bg-green-100 text-green-800",
   CANCELLED: "bg-red-100 text-red-800",
+}
+
+const statusLabels: Record<string, string> = {
+  PENDING: 'statusPending',
+  CONFIRMED: 'statusConfirmed',
+  PROCESSING: 'statusProcessing',
+  SHIPPED: 'statusShipped',
+  DELIVERED: 'statusDelivered',
+  CANCELLED: 'statusCancelled',
 }
 
 const statusFlow: Record<string, string> = {
@@ -107,7 +116,7 @@ export default function VendorOrderDetailPage() {
           </p>
         </div>
         <Badge className={statusColors[order.status] || "bg-gray-100 text-gray-800"}>
-          {order.status}
+          {t(statusLabels[order.status] || order.status.toLowerCase())}
         </Badge>
       </div>
 
@@ -180,10 +189,22 @@ export default function VendorOrderDetailPage() {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-sm text-muted-foreground space-y-1">
-                  <p>{t('addressDetails')}</p>
-                  <p className="text-xs">{t('fullAddressNote')}</p>
-                </div>
+                {order.address ? (
+                  <div className="text-sm space-y-1">
+                    <p className="font-medium">{order.address.fullName}</p>
+                    <p className="text-muted-foreground">{order.address.street}</p>
+                    <p className="text-muted-foreground">{order.address.apartment}</p>
+                    <p className="text-muted-foreground">
+                      {order.address.city}, {order.address.state} {order.address.zipCode}
+                    </p>
+                    <p className="text-muted-foreground">{order.address.country}</p>
+                    <p className="text-muted-foreground mt-2">
+                      <span className="font-medium">Phone:</span> {order.address.phone}
+                    </p>
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground">{t('addressDetails')}</p>
+                )}
               </CardContent>
             </Card>
           </div>

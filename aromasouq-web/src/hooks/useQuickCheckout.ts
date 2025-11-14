@@ -13,6 +13,7 @@ interface QuickCheckoutData {
   deliveryMethod: 'STANDARD' | 'EXPRESS'
   paymentMethod: 'CARD' | 'CASH_ON_DELIVERY'
   coinsToUse?: number
+  couponCode?: string
   giftOptions?: {
     isGift: boolean
     giftMessage?: string

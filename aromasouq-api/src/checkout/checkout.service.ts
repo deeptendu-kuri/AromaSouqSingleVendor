@@ -4,11 +4,15 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { CouponsService } from '../coupons/coupons.service';
 import { QuickCheckoutDto } from './dto/quick-checkout.dto';
 
 @Injectable()
 export class CheckoutService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly couponsService: CouponsService,
+  ) {}
 
   async quickCheckout(userId: string, dto: QuickCheckoutDto) {
     const {
@@ -19,6 +23,7 @@ export class CheckoutService {
       deliveryMethod,
       paymentMethod,
       coinsToUse = 0,
+      couponCode,
       giftOptions,
     } = dto;
 
@@ -72,6 +77,20 @@ export class CheckoutService {
           : 35; // LUXURY
     }
 
+    // Validate and apply coupon if provided
+    let couponDiscount = 0;
+    let couponId: string | null = null;
+
+    if (couponCode) {
+      const couponValidation = await this.couponsService.validate({
+        code: couponCode,
+        orderAmount: subtotal,
+      });
+
+      couponDiscount = couponValidation.discountAmount;
+      couponId = couponValidation.coupon.id;
+    }
+
     // Handle coins usage
     let coinsDiscount = 0;
     let coinsUsed = 0;
@@ -89,14 +108,17 @@ export class CheckoutService {
         throw new BadRequestException('Insufficient coins balance');
       }
 
-      // 1 coin = 1 AED discount, maximum 50% of subtotal
-      const maxCoinsDiscount = subtotal * 0.5;
+      // 1 coin = 1 AED discount, maximum 50% of subtotal after coupon
+      const maxCoinsDiscount = (subtotal - couponDiscount) * 0.5;
       coinsDiscount = Math.min(coinsToUse * 1.0, maxCoinsDiscount);
       coinsUsed = Math.floor(coinsDiscount);
     }
 
-    const tax = (subtotal - coinsDiscount + shippingFee + giftWrappingCost) * 0.05;
-    const total = subtotal - coinsDiscount + shippingFee + giftWrappingCost + tax;
+    // Total discount = coupon discount + coins discount
+    const totalDiscount = couponDiscount + coinsDiscount;
+
+    const tax = (subtotal - totalDiscount + shippingFee + giftWrappingCost) * 0.05;
+    const total = subtotal - totalDiscount + shippingFee + giftWrappingCost + tax;
 
     // Calculate coins to earn
     const coinsEarned = Math.floor(total / 10);
@@ -116,10 +138,11 @@ export class CheckoutService {
           tax,
           shippingFee: shippingFee,
           giftWrappingFee: giftWrappingCost,
-          discount: coinsDiscount,
+          discount: totalDiscount,
           total,
           coinsUsed,
           coinsEarned,
+          couponId,
           items: {
             create: {
               productId,
@@ -145,6 +168,18 @@ export class CheckoutService {
           data: {
             coinsBalance: {
               decrement: coinsUsed,
+            },
+          },
+        });
+      }
+
+      // Update coupon usage count if coupon was used
+      if (couponId) {
+        await tx.coupon.update({
+          where: { id: couponId },
+          data: {
+            usageCount: {
+              increment: 1,
             },
           },
         });

@@ -37,6 +37,10 @@ export class QuickCheckoutDto {
   coinsToUse?: number;
 
   @IsOptional()
+  @IsString()
+  couponCode?: string;
+
+  @IsOptional()
   @IsObject()
   giftOptions?: {
     isGift: boolean;

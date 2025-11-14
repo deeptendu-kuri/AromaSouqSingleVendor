@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
-import { useParams } from '@/i18n/navigation'
+import { useState, useEffect } from 'react'
+import { useParams, useRouter } from '@/i18n/navigation'
 import { useQuery } from '@tanstack/react-query'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, Coins, Tag, X, Check, Minus, Plus } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -13,9 +13,15 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { apiClient } from '@/lib/api-client'
 import { useQuickCheckout } from '@/hooks/useQuickCheckout'
+import { useAuth } from '@/hooks/useAuth'
+import { useWallet } from '@/hooks/useWallet'
 import { formatCurrency } from '@/lib/utils'
+import toast from 'react-hot-toast'
 import { getFirstProductImage } from '@/lib/image-utils'
 import { GiftOptionsModal } from '@/components/features/gift-options-modal'
+import { useTranslations } from 'next-intl'
+import { AddressForm } from '@/components/addresses/AddressForm'
+import { useCreateAddress, CreateAddressDto } from '@/hooks/useAddresses'
 
 interface Product {
   id: string
@@ -35,6 +41,7 @@ interface Address {
   addressLine1: string
   addressLine2?: string
   city: string
+  state: string
   emirate: string
   country: string
   zipCode?: string
@@ -42,7 +49,11 @@ interface Address {
 
 export default function QuickCheckoutPage() {
   const params = useParams()
+  const router = useRouter()
   const productId = params.productId as string
+  const t = useTranslations('checkout')
+  const { isAuthenticated, isLoading: authLoading } = useAuth()
+  const { data: wallet } = useWallet()
 
   const [selectedVariant, setSelectedVariant] = useState<string | undefined>()
   const [quantity] = useState(1)
@@ -54,9 +65,25 @@ export default function QuickCheckoutPage() {
 
   const { quickCheckout, isProcessing } = useQuickCheckout()
 
+  const [coinsToUse, setCoinsToUse] = useState(0)
+  const [couponCode, setCouponCode] = useState('')
+  const [appliedCoupon, setAppliedCoupon] = useState<any>(null)
+  const [couponError, setCouponError] = useState('')
+  const [showAddressForm, setShowAddressForm] = useState(false)
+
+  const createAddressMutation = useCreateAddress()
+
+  // Authentication guard - redirect to login if not authenticated
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated) {
+      toast.error('Please login to continue')
+      router.push(`/login?redirect=/checkout/quick/${productId}`)
+    }
+  }, [isAuthenticated, authLoading, router, productId])
+
   const { data: product, isLoading: productLoading } = useQuery<Product>({
     queryKey: ['product', productId],
-    queryFn: () => apiClient.get(`/products/slug/${productId}`),
+    queryFn: () => apiClient.get(`/products/${productId}`),
   })
 
   const { data: addresses, isLoading: addressesLoading } = useQuery<Address[]>({
@@ -64,29 +91,51 @@ export default function QuickCheckoutPage() {
     queryFn: () => apiClient.get('/addresses'),
   })
 
+  const handleCreateAddress = (data: CreateAddressDto) => {
+    createAddressMutation.mutate(data, {
+      onSuccess: (newAddress: any) => {
+        setShowAddressForm(false)
+        setSelectedAddress(newAddress.id)
+      },
+    })
+  }
+
   const handleCheckout = () => {
     if (!selectedAddress) {
       alert('Please select a delivery address')
       return
     }
 
-    quickCheckout({
+    const checkoutData: any = {
       productId,
       variantId: selectedVariant,
       quantity,
       addressId: selectedAddress,
       deliveryMethod,
       paymentMethod: paymentMethod === 'CARD' ? 'CARD' : 'CASH_ON_DELIVERY',
+      coinsToUse,
       giftOptions,
-    })
+    }
+
+    // Only include couponCode if a coupon is actually applied
+    if (appliedCoupon?.coupon.code) {
+      checkoutData.couponCode = appliedCoupon.coupon.code
+    }
+
+    quickCheckout(checkoutData)
   }
 
-  if (productLoading || addressesLoading) {
+  if (productLoading || addressesLoading || authLoading) {
     return (
       <div className="container mx-auto px-4 py-16">
         <div className="text-center">Loading...</div>
       </div>
     )
+  }
+
+  // Early return if not authenticated (will redirect in useEffect)
+  if (!isAuthenticated) {
+    return null
   }
 
   if (!product) {
@@ -109,8 +158,18 @@ export default function QuickCheckoutPage() {
       ? 20
       : 35
     : 0
+
   const subtotal = finalPrice * quantity
-  const total = subtotal + deliveryCost + giftWrappingCost
+
+  // Coin discount (max 50% of subtotal, 1 coin = 1 AED)
+  const maxCoinsDiscount = subtotal * 0.5
+  const coinDiscount = Math.min(coinsToUse * 1.0, maxCoinsDiscount)
+
+  // Coupon discount
+  const couponDiscount = appliedCoupon?.discountAmount || 0
+
+  const tax = (subtotal - coinDiscount - couponDiscount + deliveryCost + giftWrappingCost) * 0.05
+  const total = subtotal - coinDiscount - couponDiscount + deliveryCost + giftWrappingCost + tax
 
   return (
     <div className="container mx-auto px-4 py-8 space-y-6">
@@ -122,8 +181,8 @@ export default function QuickCheckoutPage() {
           </Link>
         </Button>
         <div>
-          <h1 className="text-2xl font-playfair font-bold text-deep-navy">Express Checkout</h1>
-          <p className="text-sm text-muted-foreground">Complete your purchase in seconds</p>
+          <h1 className="text-2xl font-playfair font-bold text-deep-navy">{t('expressCheckout')}</h1>
+          <p className="text-sm text-muted-foreground">{t('completeInSeconds')}</p>
         </div>
       </div>
 
@@ -133,7 +192,7 @@ export default function QuickCheckoutPage() {
           {/* Product Summary */}
           <Card>
             <CardHeader>
-              <CardTitle>Product</CardTitle>
+              <CardTitle>{t('product')}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex gap-4">
@@ -176,27 +235,53 @@ export default function QuickCheckoutPage() {
           {/* Delivery Address */}
           <Card>
             <CardHeader>
-              <CardTitle>Delivery Address</CardTitle>
+              <CardTitle className="flex items-center justify-between">
+                <span>{t('deliveryAddress')}</span>
+                {!showAddressForm && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setShowAddressForm(true)}
+                  >
+                    <Plus className="w-4 h-4 mr-2" />
+                    {t('addNewAddress')}
+                  </Button>
+                )}
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              <RadioGroup value={selectedAddress} onValueChange={setSelectedAddress}>
-                {addresses?.map((address) => (
-                  <div key={address.id} className="flex items-start space-x-3 p-3 border rounded-lg">
-                    <RadioGroupItem value={address.id} id={address.id} />
-                    <Label htmlFor={address.id} className="flex-1 cursor-pointer">
-                      <p className="font-medium">{address.fullName}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {address.addressLine1}, {address.city}, {address.emirate}
+              {showAddressForm ? (
+                <AddressForm
+                  onSubmit={handleCreateAddress}
+                  onCancel={() => setShowAddressForm(false)}
+                  isSubmitting={createAddressMutation.isPending}
+                  submitLabel={t('addNewAddress')}
+                />
+              ) : (
+                <>
+                  {addresses && addresses.length > 0 ? (
+                    <RadioGroup value={selectedAddress} onValueChange={setSelectedAddress}>
+                      {addresses.map((address) => (
+                        <div key={address.id} className="flex items-start space-x-3 p-3 border rounded-lg">
+                          <RadioGroupItem value={address.id} id={address.id} />
+                          <Label htmlFor={address.id} className="flex-1 cursor-pointer">
+                            <p className="font-medium">{address.fullName}</p>
+                            <p className="text-sm text-muted-foreground">
+                              {address.addressLine1}, {address.city}, {address.state}
+                            </p>
+                            <p className="text-sm text-muted-foreground">{address.phone}</p>
+                          </Label>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  ) : (
+                    <div className="text-center py-6">
+                      <p className="text-sm text-muted-foreground mb-4">
+                        {t('noAddressesFound')}. {t('addAddressHere')}.
                       </p>
-                      <p className="text-sm text-muted-foreground">{address.phone}</p>
-                    </Label>
-                  </div>
-                ))}
-              </RadioGroup>
-              {(!addresses || addresses.length === 0) && (
-                <p className="text-sm text-muted-foreground">
-                  No addresses found. Please add one in your account settings.
-                </p>
+                    </div>
+                  )}
+                </>
               )}
             </CardContent>
           </Card>
@@ -204,21 +289,21 @@ export default function QuickCheckoutPage() {
           {/* Delivery Method */}
           <Card>
             <CardHeader>
-              <CardTitle>Delivery Method</CardTitle>
+              <CardTitle>{t('deliveryMethod')}</CardTitle>
             </CardHeader>
             <CardContent>
               <RadioGroup value={deliveryMethod} onValueChange={(v) => setDeliveryMethod(v as any)}>
                 <div className="flex items-center space-x-3 p-3 border rounded-lg">
                   <RadioGroupItem value="STANDARD" id="standard" />
                   <Label htmlFor="standard" className="flex-1 cursor-pointer">
-                    <p className="font-medium">Standard Delivery (3-5 days)</p>
+                    <p className="font-medium">{t('standardDeliveryLabel')}</p>
                     <p className="text-sm text-muted-foreground">AED 15.00</p>
                   </Label>
                 </div>
                 <div className="flex items-center space-x-3 p-3 border rounded-lg">
                   <RadioGroupItem value="EXPRESS" id="express" />
                   <Label htmlFor="express" className="flex-1 cursor-pointer">
-                    <p className="font-medium">Express Delivery (1-2 days)</p>
+                    <p className="font-medium">{t('expressDeliveryLabel')}</p>
                     <p className="text-sm text-muted-foreground">AED 25.00</p>
                   </Label>
                 </div>
@@ -229,23 +314,167 @@ export default function QuickCheckoutPage() {
           {/* Payment Method */}
           <Card>
             <CardHeader>
-              <CardTitle>Payment Method</CardTitle>
+              <CardTitle>{t('paymentMethod')}</CardTitle>
             </CardHeader>
             <CardContent>
               <RadioGroup value={paymentMethod} onValueChange={(v) => setPaymentMethod(v as any)}>
                 <div className="flex items-center space-x-3 p-3 border rounded-lg">
                   <RadioGroupItem value="CARD" id="card" />
                   <Label htmlFor="card" className="flex-1 cursor-pointer">
-                    Credit/Debit Card
+                    {t('creditCard')}
                   </Label>
                 </div>
                 <div className="flex items-center space-x-3 p-3 border rounded-lg">
                   <RadioGroupItem value="CASH_ON_DELIVERY" id="cod" />
                   <Label htmlFor="cod" className="flex-1 cursor-pointer">
-                    Cash on Delivery
+                    {t('cashOnDelivery')}
                   </Label>
                 </div>
               </RadioGroup>
+            </CardContent>
+          </Card>
+
+          {/* Use Coins */}
+          {wallet && wallet.balance > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Coins className="w-5 h-5 text-[#B3967D]/600" />
+                  {t('useCoins')}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">{t('available')}</span>
+                  <span className="font-bold text-[#B3967D]/700">{wallet.balance} {t('coinsAvailable')}</span>
+                </div>
+
+                <div>
+                  <Label className="text-xs text-muted-foreground">
+                    {t('coinValueMax')}
+                  </Label>
+                  <input
+                    type="range"
+                    min="0"
+                    max={Math.min(wallet.balance, subtotal * 0.5)}
+                    value={coinsToUse}
+                    onChange={(e) => setCoinsToUse(Number(e.target.value))}
+                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#B3967D]/500 mt-2"
+                  />
+                  <div className="flex items-center gap-2 mt-2">
+                    <input
+                      type="number"
+                      min="0"
+                      max={Math.min(wallet.balance, subtotal * 0.5)}
+                      value={coinsToUse}
+                      onChange={(e) => setCoinsToUse(Math.min(Number(e.target.value), wallet.balance, subtotal * 0.5))}
+                      className="w-20 px-3 py-2 border rounded-lg text-sm text-center"
+                    />
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setCoinsToUse(Math.min(wallet.balance, subtotal * 0.5))}
+                    >
+                      {t('useMaxCoins')}
+                    </Button>
+                  </div>
+                </div>
+
+                {coinsToUse > 0 && (
+                  <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                    <p className="text-sm text-green-700 font-medium">
+                      ✨ {t('youllSave', { amount: formatCurrency(coinDiscount) })}
+                    </p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Apply Coupon */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Tag className="w-5 h-5" />
+                {t('promoCode')}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {!appliedCoupon ? (
+                <div className="space-y-2">
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder={t('enterCode')}
+                      value={couponCode}
+                      onChange={(e) => {
+                        setCouponCode(e.target.value.toUpperCase().trim())
+                        setCouponError('')
+                      }}
+                      className="flex-1 px-4 py-2 border rounded-lg uppercase"
+                    />
+                    <Button
+                      variant="outline"
+                      onClick={async () => {
+                        const trimmedCode = couponCode.trim()
+                        if (!trimmedCode) {
+                          setCouponError(t('pleaseEnterCode'))
+                          return
+                        }
+                        try {
+                          const res = await apiClient.post('/coupons/validate', {
+                            code: trimmedCode,
+                            orderAmount: subtotal - coinDiscount,
+                          })
+                          setAppliedCoupon(res)
+                          setCouponError('')
+                          setCouponCode('')
+                          toast.success(t('couponApplied'))
+                        } catch (err: any) {
+                          // Extract error message from NestJS error response
+                          const errorMessage = err.response?.data?.message ||
+                                             err.message ||
+                                             t('invalidCode')
+                          setCouponError(errorMessage)
+                          setAppliedCoupon(null)
+                          toast.error(errorMessage)
+                        }
+                      }}
+                    >
+                      {t('apply')}
+                    </Button>
+                  </div>
+                  {couponError && <p className="text-xs text-red-600">{couponError}</p>}
+                </div>
+              ) : (
+                <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-green-600" />
+                      <div>
+                        <p className="text-sm font-medium">{appliedCoupon.coupon.code}</p>
+                        <p className="text-xs text-green-700">
+                          {appliedCoupon.coupon.discountType === 'PERCENTAGE'
+                            ? `${appliedCoupon.coupon.discountValue}%`
+                            : formatCurrency(appliedCoupon.coupon.discountValue)} {t('off')}
+                        </p>
+                      </div>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => {
+                        setAppliedCoupon(null)
+                        setCouponCode('')
+                        toast.success(t('couponRemoved'))
+                      }}
+                      className="h-8 w-8"
+                    >
+                      <X className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
 
@@ -266,34 +495,57 @@ export default function QuickCheckoutPage() {
         <div>
           <Card className="sticky top-6">
             <CardHeader>
-              <CardTitle>Order Summary</CardTitle>
+              <CardTitle>{t('orderSummary')}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex justify-between text-sm">
-                <span>Subtotal</span>
+                <span>{t('subtotal')}</span>
                 <span>{formatCurrency(subtotal)}</span>
               </div>
+
+              {coinDiscount > 0 && (
+                <div className="flex justify-between text-sm text-green-600">
+                  <span>{t('coinDiscount')} ({coinsToUse})</span>
+                  <span>-{formatCurrency(coinDiscount)}</span>
+                </div>
+              )}
+
+              {couponDiscount > 0 && (
+                <div className="flex justify-between text-sm text-green-600">
+                  <span>{t('couponDiscount')}</span>
+                  <span>-{formatCurrency(couponDiscount)}</span>
+                </div>
+              )}
+
               <div className="flex justify-between text-sm">
-                <span>Delivery</span>
+                <span>{t('shipping')}</span>
                 <span>{formatCurrency(deliveryCost)}</span>
               </div>
+
               {giftWrappingCost > 0 && (
                 <div className="flex justify-between text-sm">
-                  <span>Gift Wrapping</span>
+                  <span>{t('giftWrapping')}</span>
                   <span>{formatCurrency(giftWrappingCost)}</span>
                 </div>
               )}
+
+              <div className="flex justify-between text-sm">
+                <span>{t('tax')} (5%)</span>
+                <span>{formatCurrency(tax)}</span>
+              </div>
+
               <div className="border-t pt-4 flex justify-between font-bold text-lg">
-                <span>Total</span>
+                <span>{t('total')}</span>
                 <span className="text-oud-gold">{formatCurrency(total)}</span>
               </div>
               <Button
+                variant="primary"
                 onClick={handleCheckout}
                 disabled={isProcessing || !selectedAddress}
                 className="w-full"
                 size="lg"
               >
-                {isProcessing ? 'Processing...' : 'Complete Purchase'}
+                {isProcessing ? t('processing') : t('placeOrder')}
               </Button>
             </CardContent>
           </Card>
@@ -304,7 +556,6 @@ export default function QuickCheckoutPage() {
         open={giftOptionsOpen}
         onClose={() => setGiftOptionsOpen(false)}
         onSave={setGiftOptions}
-        initialOptions={giftOptions}
       />
     </div>
   )

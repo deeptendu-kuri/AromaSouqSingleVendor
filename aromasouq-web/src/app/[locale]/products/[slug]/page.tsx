@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Image from "next/image"
-import { useParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { Heart, Minus, Plus, Share2, Package, Truck, CheckCircle, RotateCcw, Lock, Coins } from "lucide-react"
 import { Lens } from "@/components/aceternity/lens"
 import { Button } from "@/components/ui/button"
@@ -16,7 +16,9 @@ import { useProduct } from "@/hooks/useProducts"
 import { useCart } from "@/hooks/useCart"
 import { useWishlist } from "@/hooks/useWishlist"
 import { useWallet } from "@/hooks/useWallet"
+import { useAuth } from "@/hooks/useAuth"
 import { formatCurrency, calculateDiscount } from "@/lib/utils"
+import toast from "react-hot-toast"
 import { getProductImageUrl, hasProductImages } from "@/lib/image-utils"
 import { ReviewStats } from "@/components/reviews/ReviewStats"
 import { ReviewList } from "@/components/reviews/ReviewList"
@@ -27,12 +29,14 @@ import { useTranslations } from "next-intl"
 
 export default function ProductDetailPage() {
   const params = useParams()
+  const router = useRouter()
   const t = useTranslations('productDetail')
   const tProducts = useTranslations('products')
   const { data: product, isLoading } = useProduct(params.slug as string)
   const { addToCart } = useCart()
   const { toggleWishlist, isWishlisted } = useWishlist()
   const { wallet } = useWallet()
+  const { isAuthenticated } = useAuth()
   const { data: reviewStats } = useReviewStats(product?.id || '')
 
   // Type guard to ensure reviewStats has required fields
@@ -43,6 +47,31 @@ export default function ProductDetailPage() {
   const [quantity, setQuantity] = useState(1)
   const [relatedProducts, setRelatedProducts] = useState<any[]>([])
   const [coinsToUse, setCoinsToUse] = useState(0)
+
+  // Buy Now handler with auth check
+  const handleBuyNow = () => {
+    // Step 1: Check authentication FIRST
+    if (!isAuthenticated) {
+      toast.error('Please login to continue')
+      router.push(`/login?redirect=/products/${params.slug}`)
+      return
+    }
+
+    // Step 2: Check stock
+    if (!product || product.stockQuantity === 0) {
+      toast.error(tProducts('outOfStock'))
+      return
+    }
+
+    // Step 3: Check variant selection if needed
+    if (product.variants && product.variants.length > 0 && !selectedVariant) {
+      toast.error('Please select a size first')
+      return
+    }
+
+    // Step 4: Navigate to quick checkout
+    router.push(`/checkout/quick/${product.id}`)
+  }
 
   // Fetch best sellers for "You may also like" section
   useEffect(() => {
@@ -391,6 +420,8 @@ export default function ProductDetailPage() {
               <Button
                 variant="outline"
                 className="flex-1 h-16 border-2 border-[#B3967D]/500 text-gray-800 hover:bg-gradient-to-r hover:from-[#B3967D]/500 hover:to-[#B3967D]/500 hover:text-white font-black text-lg transition-all rounded-xl hover:shadow-2xl hover:scale-105"
+                onClick={handleBuyNow}
+                disabled={!product || product.stockQuantity === 0}
               >
                 ⚡ {tProducts('buyNow')}
               </Button>

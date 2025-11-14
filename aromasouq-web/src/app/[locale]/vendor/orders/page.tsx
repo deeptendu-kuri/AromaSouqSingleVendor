@@ -16,12 +16,21 @@ import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
 
 const statusColors: Record<string, string> = {
-  PENDING: "bg-[#B3967D]/100 text-[#B3967D]/800",
+  PENDING: "bg-yellow-100 text-yellow-800",
   CONFIRMED: "bg-blue-100 text-blue-800",
   PROCESSING: "bg-purple-100 text-purple-800",
   SHIPPED: "bg-cyan-100 text-cyan-800",
   DELIVERED: "bg-green-100 text-green-800",
   CANCELLED: "bg-red-100 text-red-800",
+}
+
+const statusLabels: Record<string, string> = {
+  PENDING: 'pending',
+  CONFIRMED: 'confirmed',
+  PROCESSING: 'processing',
+  SHIPPED: 'shipped',
+  DELIVERED: 'delivered',
+  CANCELLED: 'cancelled',
 }
 
 export default function VendorOrdersPage() {
@@ -133,7 +142,7 @@ export default function VendorOrdersPage() {
                   </TableCell>
                   <TableCell>
                     <Badge className={statusColors[order.status] || "bg-gray-100 text-gray-800"}>
-                      {order.status}
+                      {t(statusLabels[order.status] || order.status.toLowerCase())}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">
