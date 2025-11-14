@@ -43,8 +43,8 @@ export function Header() {
         <div className="container mx-auto px-4 py-2.5 flex justify-between items-center text-xs md:text-sm">
           <p className="font-semibold">{tTopBar('freeShipping')}</p>
           <div className="hidden md:flex gap-4 font-medium">
-            <Link href="/about" className="hover:text-[var(--color-oud-gold)] transition-colors">{tNav('about')}</Link>
-            <Link href="/contact" className="hover:text-[var(--color-oud-gold)] transition-colors">{tNav('contact')}</Link>
+            <Link href="/about" className="hover:text-oud-gold transition-colors">{tNav('about')}</Link>
+            <Link href="/contact" className="hover:text-oud-gold transition-colors">{tNav('contact')}</Link>
           </div>
         </div>
       </div>
@@ -69,7 +69,7 @@ export function Header() {
                     className={cn(
                       "text-base font-semibold py-2 px-4 rounded-lg transition-colors",
                       pathname === '/products' && !categorySlug
-                        ? "bg-gradient-to-r from-[#ECDBC7] to-[#ECDBC7] text-[var(--color-oud-gold)]"
+                        ? "bg-gradient-to-r from-[#ECDBC7] to-[#ECDBC7] text-oud-gold"
                         : "hover:bg-gray-50"
                     )}
                   >
@@ -80,7 +80,7 @@ export function Header() {
                     className={cn(
                       "text-base font-semibold py-2 px-4 rounded-lg transition-colors",
                       categorySlug === 'perfumes'
-                        ? "bg-gradient-to-r from-[#ECDBC7] to-[#ECDBC7] text-[var(--color-oud-gold)]"
+                        ? "bg-gradient-to-r from-[#ECDBC7] to-[#ECDBC7] text-oud-gold"
                         : "hover:bg-gray-50"
                     )}
                   >
@@ -91,7 +91,7 @@ export function Header() {
                     className={cn(
                       "text-base font-semibold py-2 px-4 rounded-lg transition-colors",
                       categorySlug === 'oud'
-                        ? "bg-gradient-to-r from-[#ECDBC7] to-[#ECDBC7] text-[var(--color-oud-gold)]"
+                        ? "bg-gradient-to-r from-[#ECDBC7] to-[#ECDBC7] text-oud-gold"
                         : "hover:bg-gray-50"
                     )}
                   >
@@ -102,7 +102,7 @@ export function Header() {
                     className={cn(
                       "text-base font-semibold py-2 px-4 rounded-lg transition-colors",
                       categorySlug === 'attars'
-                        ? "bg-gradient-to-r from-[#ECDBC7] to-[#ECDBC7] text-[var(--color-oud-gold)]"
+                        ? "bg-gradient-to-r from-[#ECDBC7] to-[#ECDBC7] text-oud-gold"
                         : "hover:bg-gray-50"
                     )}
                   >
@@ -113,7 +113,7 @@ export function Header() {
                     className={cn(
                       "text-base font-semibold py-2 px-4 rounded-lg transition-colors",
                       categorySlug === 'bakhoor'
-                        ? "bg-gradient-to-r from-[#ECDBC7] to-[#ECDBC7] text-[var(--color-oud-gold)]"
+                        ? "bg-gradient-to-r from-[#ECDBC7] to-[#ECDBC7] text-oud-gold"
                         : "hover:bg-gray-50"
                     )}
                   >
@@ -124,7 +124,7 @@ export function Header() {
                     className={cn(
                       "text-base font-semibold py-2 px-4 rounded-lg transition-colors",
                       categorySlug === 'gift-sets'
-                        ? "bg-gradient-to-r from-[#ECDBC7] to-[#ECDBC7] text-[var(--color-oud-gold)]"
+                        ? "bg-gradient-to-r from-[#ECDBC7] to-[#ECDBC7] text-oud-gold"
                         : "hover:bg-gray-50"
                     )}
                   >
@@ -135,7 +135,7 @@ export function Header() {
             </Sheet>
 
             <Link href="/" className="flex items-center gap-2">
-              <h1 className="font-heading text-2xl lg:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-oud-gold)] to-[#B3967D]">
+              <h1 className="font-heading text-2xl lg:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-oud-gold to-oud-tan">
                 {tCommon('brandName')}
               </h1>
             </Link>
@@ -149,7 +149,7 @@ export function Header() {
                 "px-4 py-2 text-sm font-bold transition-all rounded-lg",
                 pathname === '/products' && !categorySlug
                   ? "bg-gradient-to-r from-[#B3967D] to-[#B3967D] text-[#2D2D2D] font-bold shadow-md"
-                  : "text-gray-700 hover:bg-[#ECDBC7] hover:text-[var(--color-oud-gold)]"
+                  : "text-gray-700 hover:bg-[#ECDBC7] hover:text-oud-gold"
               )}
             >
               {tNav('allProducts')}
@@ -160,7 +160,7 @@ export function Header() {
                 "px-4 py-2 text-sm font-bold transition-all rounded-lg",
                 categorySlug === 'perfumes'
                   ? "bg-gradient-to-r from-[#B3967D] to-[#B3967D] text-[#2D2D2D] font-bold shadow-md"
-                  : "text-gray-700 hover:bg-[#ECDBC7] hover:text-[var(--color-oud-gold)]"
+                  : "text-gray-700 hover:bg-[#ECDBC7] hover:text-oud-gold"
               )}
             >
               {tNav('perfumes')}
@@ -171,7 +171,7 @@ export function Header() {
                 "px-4 py-2 text-sm font-bold transition-all rounded-lg",
                 categorySlug === 'oud'
                   ? "bg-gradient-to-r from-[#B3967D] to-[#B3967D] text-[#2D2D2D] font-bold shadow-md"
-                  : "text-gray-700 hover:bg-[#ECDBC7] hover:text-[var(--color-oud-gold)]"
+                  : "text-gray-700 hover:bg-[#ECDBC7] hover:text-oud-gold"
               )}
             >
               {tNav('oud')}
@@ -182,7 +182,7 @@ export function Header() {
                 "px-4 py-2 text-sm font-bold transition-all rounded-lg",
                 categorySlug === 'attars'
                   ? "bg-gradient-to-r from-[#B3967D] to-[#B3967D] text-[#2D2D2D] font-bold shadow-md"
-                  : "text-gray-700 hover:bg-[#ECDBC7] hover:text-[var(--color-oud-gold)]"
+                  : "text-gray-700 hover:bg-[#ECDBC7] hover:text-oud-gold"
               )}
             >
               {tNav('attars')}
@@ -193,7 +193,7 @@ export function Header() {
                 "px-4 py-2 text-sm font-bold transition-all rounded-lg",
                 categorySlug === 'bakhoor'
                   ? "bg-gradient-to-r from-[#B3967D] to-[#B3967D] text-[#2D2D2D] font-bold shadow-md"
-                  : "text-gray-700 hover:bg-[#ECDBC7] hover:text-[var(--color-oud-gold)]"
+                  : "text-gray-700 hover:bg-[#ECDBC7] hover:text-oud-gold"
               )}
             >
               {tNav('bakhoor')}
@@ -204,7 +204,7 @@ export function Header() {
                 "px-4 py-2 text-sm font-bold transition-all rounded-lg",
                 categorySlug === 'gift-sets'
                   ? "bg-gradient-to-r from-[#B3967D] to-[#B3967D] text-[#2D2D2D] font-bold shadow-md"
-                  : "text-gray-700 hover:bg-[#ECDBC7] hover:text-[var(--color-oud-gold)]"
+                  : "text-gray-700 hover:bg-[#ECDBC7] hover:text-oud-gold"
               )}
             >
               {tNav('giftSets')}
@@ -222,8 +222,8 @@ export function Header() {
                 href="/account/wallet"
                 className="hidden md:flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-[#ECDBC7] to-[#ECDBC7] rounded-full hover:shadow-md transition-all border border-[#B3967D]"
               >
-                <Coins className="h-4 w-4 text-[var(--color-oud-gold)]" />
-                <span className="font-black text-[var(--color-oud-gold)] text-sm">{user.coinsBalance}</span>
+                <Coins className="h-4 w-4 text-oud-gold" />
+                <span className="font-black text-oud-gold text-sm">{user.coinsBalance}</span>
               </Link>
             )}
 

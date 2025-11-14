@@ -112,20 +112,20 @@ export default function ProductDetailPage() {
   const finalPrice = totalPrice - coinDiscount
 
   return (
-    <div className="bg-gradient-to-br from-[#B3967D]/50 via-white to-[#B3967D]/50 min-h-screen">
+    <div className="bg-gradient-to-br from-oud-tan/50 via-white to-oud-tan/50 min-h-screen">
       {/* Breadcrumb */}
       <div className="container mx-auto px-[5%] py-6">
         <div className="flex items-center gap-2 text-sm font-semibold">
-          <Link href="/" className="text-[#8B7355] hover:text-[#6b0000] transition-all">
+          <Link href="/" className="text-[#8B7355] hover:text-deep-maroon transition-all">
             🏠 {t('home')}
           </Link>
-          <span className="text-[#B3967D]/400">→</span>
+          <span className="text-oud-tan/40">→</span>
           {product.category?.nameEn && (
             <>
-              <Link href={`/products?categorySlug=${product.category.slug}`} className="text-[#8B7355] hover:text-[#6b0000] transition-all">
+              <Link href={`/products?categorySlug=${product.category.slug}`} className="text-[#8B7355] hover:text-deep-maroon transition-all">
                 {product.category.nameEn}
               </Link>
-              <span className="text-[#B3967D]/400">→</span>
+              <span className="text-oud-tan/40">→</span>
             </>
           )}
           <span className="text-gray-700">{product.nameEn}</span>
@@ -140,7 +140,7 @@ export default function ProductDetailPage() {
             {/* Main Image with Lens Zoom */}
             {productHasImages ? (
               <Lens lensSize={200} zoomFactor={2.5} className="mb-4">
-                <div className="relative w-full h-[550px] rounded-2xl overflow-hidden bg-gradient-to-br from-[#B3967D]/100 via-orange-100 to-yellow-100 shadow-2xl border-4 border-white">
+                <div className="relative w-full h-[550px] rounded-2xl overflow-hidden bg-gradient-to-br from-oud-tan via-orange-100 to-yellow-100 shadow-2xl border-4 border-white">
                   {currentImageUrl ? (
                     <Image
                       src={currentImageUrl}
@@ -152,17 +152,17 @@ export default function ProductDetailPage() {
                     <ProductImagePlaceholder className="w-full h-full" />
                   )}
                   {discount > 0 && (
-                    <div className="absolute top-5 left-5 bg-gradient-to-r from-red-600 to-[#B3967D]/600 text-white px-5 py-2.5 rounded-full text-sm font-black shadow-xl border-2 border-red-400/30">
+                    <div className="absolute top-5 left-5 bg-gradient-to-r from-red-600 to-oud-tan/60 text-white px-5 py-2.5 rounded-full text-sm font-black shadow-xl border-2 border-red-400/30">
                       🔥 -{discount}% {t('offBadge')}
                     </div>
                   )}
                 </div>
               </Lens>
             ) : (
-              <div className="relative w-full h-[550px] rounded-2xl overflow-hidden bg-gradient-to-br from-[#B3967D]/100 via-orange-100 to-yellow-100 mb-4 shadow-2xl border-4 border-white">
+              <div className="relative w-full h-[550px] rounded-2xl overflow-hidden bg-gradient-to-br from-oud-tan via-orange-100 to-yellow-100 mb-4 shadow-2xl border-4 border-white">
                 <ProductImagePlaceholder className="w-full h-full" />
                 {discount > 0 && (
-                  <div className="absolute top-5 left-5 bg-gradient-to-r from-red-600 to-[#B3967D]/600 text-white px-5 py-2.5 rounded-full text-sm font-black shadow-xl border-2 border-red-400/30">
+                  <div className="absolute top-5 left-5 bg-gradient-to-r from-red-600 to-oud-tan/60 text-white px-5 py-2.5 rounded-full text-sm font-black shadow-xl border-2 border-red-400/30">
                     🔥 -{discount}% {t('offBadge')}
                   </div>
                 )}
@@ -199,7 +199,7 @@ export default function ProductDetailPage() {
           {/* Product Info */}
           <div className="py-3">
             {/* Brand */}
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#B3967D]/100 to-[#B3967D]/100 px-4 py-2 rounded-full mb-3 border-2 border-[#B3967D]/200 shadow-md">
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-oud-tan to-oud-tan px-4 py-2 rounded-full mb-3 border-2 border-oud-tan/20 shadow-md">
               <span className="text-[#6b0000] text-sm font-black uppercase tracking-wider">
                 ✨ {product.brand?.nameEn || t('premiumBrand')}
               </span>
@@ -218,8 +218,8 @@ export default function ProductDetailPage() {
             )}
 
             {/* Rating */}
-            <div className="flex items-center gap-4 mb-6 pb-6 border-b-2 border-[#B3967D]/200">
-              <div className="flex items-center gap-2 bg-gradient-to-r from-[#B3967D]/50 to-[#B3967D]/50 px-4 py-2 rounded-full border-2 border-[#B3967D]/200 shadow-md">
+            <div className="flex items-center gap-4 mb-6 pb-6 border-b-2 border-oud-tan/20">
+              <div className="flex items-center gap-2 bg-gradient-to-r from-oud-tan/50 to-oud-tan/50 px-4 py-2 rounded-full border-2 border-oud-tan/20 shadow-md">
                 <div className="flex text-2xl">
                   {[...Array(5)].map((_, i) => (
                     <span
@@ -241,7 +241,7 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Price */}
-            <div className="mb-8 pb-8 border-b-2 border-[#B3967D]/200">
+            <div className="mb-8 pb-8 border-b-2 border-oud-tan/20">
               <div className="flex items-baseline gap-4 mb-3">
                 <span className="text-5xl font-black text-[#6b0000]">
                   {formatCurrency(currentPrice)}
@@ -251,7 +251,7 @@ export default function ProductDetailPage() {
                     <span className="text-2xl text-gray-400 line-through font-bold">
                       {formatCurrency(product.compareAtPrice!)}
                     </span>
-                    <Badge className="bg-gradient-to-r from-red-600 to-[#B3967D]/600 text-white text-sm px-4 py-1.5 font-black shadow-lg border-2 border-red-400/30">
+                    <Badge className="bg-gradient-to-r from-red-600 to-oud-tan/60 text-white text-sm px-4 py-1.5 font-black shadow-lg border-2 border-red-400/30">
                       -{discount}% {t('offBadge')}
                     </Badge>
                   </>
@@ -279,7 +279,7 @@ export default function ProductDetailPage() {
             {product.size && (
               <div className="mb-6">
                 <span className="text-sm font-black text-gray-700 block mb-3">📦 {tProducts('size')}</span>
-                <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#B3967D]/500 to-[#B3967D]/500 text-white rounded-xl font-black shadow-lg hover:shadow-xl transition-all border-2 border-[#B3967D]/400/30">
+                <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-oud-tan to-oud-tan text-white rounded-xl font-black shadow-lg hover:shadow-xl transition-all border-2 border-oud-tan/30">
                   <Package className="h-5 w-5" />
                   <span>{product.size}</span>
                 </div>
@@ -290,11 +290,11 @@ export default function ProductDetailPage() {
             <div className="mb-8">
               <span className="text-sm font-black text-gray-700 block mb-3">🔢 {tProducts('quantity')}</span>
               <div className="flex items-center gap-4">
-                <div className="flex items-center border-2 border-[#B3967D]/300 rounded-xl bg-white shadow-lg">
+                <div className="flex items-center border-2 border-oud-tan/30 rounded-xl bg-white shadow-lg">
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-12 w-12 hover:bg-gradient-to-r hover:from-[#B3967D]/500 hover:to-[#B3967D]/500 hover:text-white transition-all rounded-l-xl"
+                    className="h-12 w-12 hover:bg-oud-tan hover:text-white transition-all rounded-l-xl"
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
                     disabled={quantity <= 1}
                   >
@@ -304,7 +304,7 @@ export default function ProductDetailPage() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-12 w-12 hover:bg-gradient-to-r hover:from-[#B3967D]/500 hover:to-[#B3967D]/500 hover:text-white transition-all rounded-r-xl"
+                    className="h-12 w-12 hover:bg-oud-tan hover:text-white transition-all rounded-r-xl"
                     onClick={() => setQuantity(quantity + 1)}
                     disabled={quantity >= product.stockQuantity}
                   >
@@ -337,10 +337,10 @@ export default function ProductDetailPage() {
                   <div className="pt-3 border-t border-blue-200">
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-2">
-                        <Coins className="w-5 h-5 text-[#B3967D]/600" />
+                        <Coins className="w-5 h-5 text-oud-tan" />
                         <span className="text-sm font-bold text-gray-700">{t('useCoins')}</span>
                       </div>
-                      <Badge className="bg-gradient-to-r from-[#B3967D]/500 to-[#B3967D]/500 text-white font-bold">
+                      <Badge className="bg-gradient-to-r from-oud-tan to-oud-tan text-white font-bold">
                         {wallet.balance} {t('coinsAvailable')}
                       </Badge>
                     </div>
@@ -367,7 +367,7 @@ export default function ProductDetailPage() {
                           variant="outline"
                           size="sm"
                           onClick={() => setCoinsToUse(Math.min(wallet.balance, totalPrice))}
-                          className="border-2 border-[#B3967D]/500 text-[#B3967D]/700 hover:bg-[#B3967D]/500 hover:text-white transition-all"
+                          className="border-2 border-oud-tan text-oud-tan hover:bg-oud-tan hover:text-white transition-all"
                         >
                           {t('useMax')}
                         </Button>
@@ -411,7 +411,7 @@ export default function ProductDetailPage() {
             {/* Action Buttons */}
             <div className="flex gap-3 mb-10">
               <Button
-                className="flex-1 h-16 bg-gradient-to-r from-[#B3967D]/500 to-[#B3967D]/500 hover:from-[#B3967D]/600 hover:to-[#B3967D]/600 hover:shadow-2xl hover:scale-105 transition-all text-white font-black text-lg rounded-xl border-2 border-[#B3967D]/400/30"
+                className="flex-1 h-16 bg-gradient-to-r from-oud-tan to-oud-tan hover:from-oud-tan/90 hover:to-oud-tan/90 hover:shadow-2xl hover:scale-105 transition-all text-white font-black text-lg rounded-xl border-2 border-oud-tan/30"
                 onClick={() => addToCart({ productId: product.id, variantId: selectedVariant || undefined, quantity })}
                 disabled={product.stockQuantity === 0}
               >
@@ -419,7 +419,7 @@ export default function ProductDetailPage() {
               </Button>
               <Button
                 variant="outline"
-                className="flex-1 h-16 border-2 border-[#B3967D]/500 text-gray-800 hover:bg-gradient-to-r hover:from-[#B3967D]/500 hover:to-[#B3967D]/500 hover:text-white font-black text-lg transition-all rounded-xl hover:shadow-2xl hover:scale-105"
+                className="flex-1 h-16 border-2 border-oud-tan text-gray-800 hover:bg-oud-tan hover:text-white font-black text-lg transition-all rounded-xl hover:shadow-2xl hover:scale-105"
                 onClick={handleBuyNow}
                 disabled={!product || product.stockQuantity === 0}
               >
@@ -428,7 +428,7 @@ export default function ProductDetailPage() {
               <Button
                 variant="outline"
                 size="icon"
-                className="h-16 w-16 border-2 border-[#B3967D]/300 hover:border-red-500 hover:bg-red-50 transition-all rounded-xl shadow-md hover:shadow-lg"
+                className="h-16 w-16 border-2 border-oud-tan/30 hover:border-red-500 hover:bg-red-50 transition-all rounded-xl shadow-md hover:shadow-lg"
                 onClick={() => toggleWishlist(product.id)}
               >
                 <Heart
@@ -438,14 +438,14 @@ export default function ProductDetailPage() {
               <Button
                 variant="outline"
                 size="icon"
-                className="h-16 w-16 border-2 border-[#B3967D]/300 hover:border-[#B3967D]/500 hover:bg-[#B3967D]/50 transition-all rounded-xl shadow-md hover:shadow-lg"
+                className="h-16 w-16 border-2 border-oud-tan/30 hover:border-oud-tan hover:bg-oud-tan/10 transition-all rounded-xl shadow-md hover:shadow-lg"
               >
                 <Share2 className="h-6 w-6 text-gray-600" />
               </Button>
             </div>
 
             {/* Features Grid */}
-            <div className="grid grid-cols-2 gap-4 mb-8 pb-8 border-b-2 border-[#B3967D]/200">
+            <div className="grid grid-cols-2 gap-4 mb-8 pb-8 border-b-2 border-oud-tan/20">
               <div className="flex items-center gap-3 p-4 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl text-sm shadow-md border-2 border-blue-200 hover:shadow-lg transition-all">
                 <div className="bg-white p-2 rounded-lg shadow-sm">
                   <Truck className="h-5 w-5 text-blue-600 flex-shrink-0" />
@@ -466,7 +466,7 @@ export default function ProductDetailPage() {
               </div>
               <div className="flex items-center gap-3 p-4 bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl text-sm shadow-md border-2 border-orange-200 hover:shadow-lg transition-all">
                 <div className="bg-white p-2 rounded-lg shadow-sm">
-                  <Lock className="h-5 w-5 text-[#B3967D]/600 flex-shrink-0" />
+                  <Lock className="h-5 w-5 text-oud-tan flex-shrink-0" />
                 </div>
                 <span className="text-gray-700 font-bold">{t('securePayment')}</span>
               </div>
@@ -483,28 +483,28 @@ export default function ProductDetailPage() {
       {/* Tabs Section */}
       <div className="container mx-auto px-[5%] mb-16">
         <Tabs defaultValue="description" className="w-full">
-          <TabsList className="w-full justify-start border-b-2 border-[#B3967D]/200 bg-gradient-to-r from-white to-amber-50 h-auto p-0 rounded-none shadow-md">
+          <TabsList className="w-full justify-start border-b-2 border-oud-tan/20 bg-gradient-to-r from-white to-amber-50 h-auto p-0 rounded-none shadow-md">
             <TabsTrigger
               value="description"
-              className="data-[state=active]:border-b-4 data-[state=active]:border-[#B3967D]/500 data-[state=active]:text-[#6b0000] data-[state=active]:font-black rounded-none px-8 py-4 font-bold text-gray-600 hover:text-gray-800 transition-all"
+              className="data-[state=active]:border-b-4 data-[state=active]:border-oud-tan data-[state=active]:text-deep-maroon data-[state=active]:font-black rounded-none px-8 py-4 font-bold text-gray-600 hover:text-gray-800 transition-all"
             >
               📝 {t('tabs.description')}
             </TabsTrigger>
             <TabsTrigger
               value="specifications"
-              className="data-[state=active]:border-b-4 data-[state=active]:border-[#B3967D]/500 data-[state=active]:text-[#6b0000] data-[state=active]:font-black rounded-none px-8 py-4 font-bold text-gray-600 hover:text-gray-800 transition-all"
+              className="data-[state=active]:border-b-4 data-[state=active]:border-oud-tan data-[state=active]:text-deep-maroon data-[state=active]:font-black rounded-none px-8 py-4 font-bold text-gray-600 hover:text-gray-800 transition-all"
             >
               📊 {t('tabs.specifications')}
             </TabsTrigger>
             <TabsTrigger
               value="notes"
-              className="data-[state=active]:border-b-4 data-[state=active]:border-[#B3967D]/500 data-[state=active]:text-[#6b0000] data-[state=active]:font-black rounded-none px-8 py-4 font-bold text-gray-600 hover:text-gray-800 transition-all"
+              className="data-[state=active]:border-b-4 data-[state=active]:border-oud-tan data-[state=active]:text-deep-maroon data-[state=active]:font-black rounded-none px-8 py-4 font-bold text-gray-600 hover:text-gray-800 transition-all"
             >
               🌸 {t('tabs.fragranceNotes')}
             </TabsTrigger>
             <TabsTrigger
               value="reviews"
-              className="data-[state=active]:border-b-4 data-[state=active]:border-[#B3967D]/500 data-[state=active]:text-[#6b0000] data-[state=active]:font-black rounded-none px-8 py-4 font-bold text-gray-600 hover:text-gray-800 transition-all"
+              className="data-[state=active]:border-b-4 data-[state=active]:border-oud-tan data-[state=active]:text-deep-maroon data-[state=active]:font-black rounded-none px-8 py-4 font-bold text-gray-600 hover:text-gray-800 transition-all"
             >
               ⭐ {t('tabs.reviews')} ({product.reviewCount || 0})
             </TabsTrigger>

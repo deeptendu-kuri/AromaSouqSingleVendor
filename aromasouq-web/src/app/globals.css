@@ -1,46 +1,9 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
-  /* Antique Oud Brand Color Palette - Tailwind v4 Format - CORRECTED */
-  --color-oud-tan: #B3967D; /* Muted tan/taupe - PRIMARY accent - sophisticated */
-  --color-oud-gold: #B3967D; /* Alias for oud-tan (backward compatibility) */
-  --color-deep-maroon: #550000; /* Deep maroon - MAIN brand color - luxury */
-  --color-deep-navy: #550000; /* Alias for deep-maroon (backward compatibility) */
-  --color-beige: #ECDBC7; /* Warm cream/beige - SOFT accent - elegant */
-  --color-charcoal: #2D2D2D; /* Text/UI elements - standard */
-  --color-gray-medium: #4A4A4A; /* Secondary text */
-  --color-ivory: #FEFEFE; /* Light backgrounds */
-  --color-burgundy: #550000; /* Alias for deep-maroon */
-  --color-whatsapp-green: #25D366;
-
-  /* Font Families - Antique Oud Traditional Arabic Style */
-  --font-family-heading: var(--font-changa), var(--font-arabic), Georgia, serif;
-  --font-family-body: var(--font-ibm-plex-arabic), var(--font-inter), sans-serif;
-  --font-family-sans: var(--font-ibm-plex-arabic), var(--font-inter), sans-serif;
-  --font-family-serif: var(--font-changa), var(--font-arabic), Georgia, serif;
-
-  /* Box Shadows - Antique Oud - Subtle & Standard */
-  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08);
-  --shadow-card-hover: 0 8px 16px rgba(0, 0, 0, 0.12);
-  --shadow-tan: 0 4px 12px rgba(179, 150, 125, 0.2); /* Subtle tan shadow */
-  --shadow-tan-hover: 0 6px 16px rgba(179, 150, 125, 0.25);
-  --shadow-maroon: 0 4px 12px rgba(85, 0, 0, 0.15); /* Deep maroon shadow */
-  --shadow-maroon-hover: 0 6px 16px rgba(85, 0, 0, 0.2);
-
-  /* Border Radius */
-  --radius-lg: 0.5rem;
-  --radius-md: calc(0.5rem - 2px);
-  --radius-sm: calc(0.5rem - 4px);
-
-  /* Animations */
-  --animate-accordion-down: accordion-down 0.2s ease-out;
-  --animate-accordion-up: accordion-up 0.2s ease-out;
-  --animate-fade-in: fade-in 0.3s ease-out;
-  --animate-slide-up: slide-up 0.3s ease-out;
-  --animate-scale-in: scale-in 0.2s ease-out;
-}
-
-:root {
+@layer base {
+  :root {
   --background: 0 0% 100%;
   --foreground: 0 0% 3.9%;
   --card: 0 0% 100%;
@@ -61,6 +24,7 @@
   --input: 0 0% 89.8%;
   --ring: 30 25% 59%; /* Tan accent ring */
   --radius: 0.5rem;
+  }
 }
 
 * {
