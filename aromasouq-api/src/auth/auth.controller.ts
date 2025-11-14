@@ -29,12 +29,15 @@ export class AuthController {
 
     // Set httpOnly cookie
     const isProduction = process.env.NODE_ENV === 'production';
-    const allowLocalhost = process.env.FRONTEND_URL?.includes('localhost');
+    const frontendUrl = process.env.FRONTEND_URL || '';
+    const isLocalhostFrontend = frontendUrl.includes('localhost');
 
+    // For cross-origin localhost development (localhost → Railway), use None without Secure
+    // For production HTTPS, use None with Secure
     res.cookie('access_token', result.access_token, {
       httpOnly: true,
-      secure: isProduction && !allowLocalhost,
-      sameSite: (isProduction && !allowLocalhost) ? 'none' : 'lax',
+      secure: isProduction && !isLocalhostFrontend,
+      sameSite: 'none',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
@@ -55,12 +58,15 @@ export class AuthController {
 
     // Set httpOnly cookie
     const isProduction = process.env.NODE_ENV === 'production';
-    const allowLocalhost = process.env.FRONTEND_URL?.includes('localhost');
+    const frontendUrl = process.env.FRONTEND_URL || '';
+    const isLocalhostFrontend = frontendUrl.includes('localhost');
 
+    // For cross-origin localhost development (localhost → Railway), use None without Secure
+    // For production HTTPS, use None with Secure
     res.cookie('access_token', result.access_token, {
       httpOnly: true,
-      secure: isProduction && !allowLocalhost,
-      sameSite: (isProduction && !allowLocalhost) ? 'none' : 'lax',
+      secure: isProduction && !isLocalhostFrontend,
+      sameSite: 'none',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
